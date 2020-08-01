@@ -1,23 +1,27 @@
 const cheerio = require("cheerio");
+const chalk = require("chalk");
 const axios = require("axios");
-const {range} = require("./helper");
+const {range, iterateWithProgress} = require("./helper");
+
+require("draftlog").into(console);
 
 const getPipe = async (baseUrl, pipeUrl, pages, selector) => {
-  const pipe = [];
-  for (const page of pages) {
+  const pageIterator = await iterateWithProgress(pages, "Obtaining Pipe...");
+
+  const pipeDataGroupedByPage = await pageIterator(async (page) => {
     const requestUrl = pipeUrl.replace("{page}", page);
-    console.log("Request: " + requestUrl);
     const pageRequest = await axios.get(requestUrl);
     const $ = cheerio.load(pageRequest.data);
-    $(selector).map((_, e) => pipe.push(baseUrl + $(e).attr("href")));
-  }
-  return pipe;
+    return $(selector)
+      .map((_, e) => baseUrl + $(e).attr("href"))
+      .toArray();
+  });
+
+  return [].concat(...pipeDataGroupedByPage);
 };
 const getPage = async (url) => {
-  console.log("Getting info from: " + url);
   const pageContent = await axios.get(url);
   const $ = cheerio.load(pageContent.data);
-  console.log("Loader: " + url);
   return $;
 };
 const getScrapData = ($, scrapData, url) => {
@@ -67,11 +71,8 @@ const getDataWithCustomSelector = ($, customSelector) => {
 };
 
 const processPipe = async (urls, scrapData, baseUrl, lang) => {
-  const data = [];
-  for (const url of urls) {
-    const scrappedData = await getDataFromURL(url, scrapData, baseUrl, lang);
-    data.push(scrappedData);
-  }
-  return data;
+  const pageIterator = await iterateWithProgress(urls, "Processing Pipe...");
+  return await pageIterator(async (url) => await getDataFromURL(url, scrapData, baseUrl, lang));
 };
+
 module.exports = {getPipe, getPage, getScrapData, getDataFromURL, processPipe};

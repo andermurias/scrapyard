@@ -3,7 +3,7 @@
   "dataSource": {
     "url": "https://www.guggenheim-bilbao.eus/la-coleccion/obras?page={page}",
     "elements": {
-      "page": [1]
+      "page": [1, 2]
     },
     "selector": ".collection-works__grid .grid__item > a"
   },

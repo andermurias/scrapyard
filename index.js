@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 
-const {getConfigDataFromArgs, getRangeFromConfig, saveDataToFile} = require("./src/helper");
+const {getConfigDataFromArgs, getRangeFromConfig, saveDataToFile, getFileNameFromConfig} = require("./src/helper");
 const {getPipe, processPipe} = require("./src/scrap");
 
 (async () => {
@@ -12,5 +12,5 @@ const {getPipe, processPipe} = require("./src/scrap");
 
   const json = await processPipe(urls, config.scrapData, config.baseUrl, config.language);
 
-  saveDataToFile(json, "output.json");
+  saveDataToFile(json, "output/", getFileNameFromConfig(config));
 })();

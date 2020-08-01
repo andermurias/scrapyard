@@ -38,7 +38,7 @@ To run it you only need to create a json file like this one:
 
 - **dataSourde.elements.page**: The pages to request, can be a an array with all the elements you want, or can be a string range "1-11" or "7-21"...
 
-- **dataSource.selector**: The selector where the URL of the individual elements in the paginaed list
+- **dataSource.selector**: The selector where the URL of the individual elements in the paginaed list, must be an anchor
 
 - **language.default**: The default language you want to set in the output json
 

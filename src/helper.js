@@ -1,4 +1,5 @@
 const fs = require("fs");
+const chalk = require("chalk");
 
 const getConfigDataFromArgs = (argv) => {
   const [, , configFle] = argv;
@@ -20,13 +21,24 @@ const getRangeFromConfig = (rangeData) => {
   return Array.from({length: end + 1 - start}, (v, k) => k + start);
 };
 
-const saveDataToFile = (data, filename) => {
-  if (fs.existsSync(filename)) {
-    fs.unlinkSync(filename);
+const saveDataToFile = (data, path, filename) => {
+  ensureDirectoryExists(path);
+
+  if (fs.existsSync(path + filename)) {
+    fs.unlinkSync(path + filename);
   }
-  fs.writeFile(filename, JSON.stringify(data), {overwrite: true, flag: "wx"}, (err) =>
-    err ? console.log(err) : console.log("Data Saved")
-  );
+
+  console.log("");
+
+  fs.writeFile(path + filename, JSON.stringify(data), {overwrite: true, flag: "wx"}, (err) => {
+    if (err) {
+      console.log(err);
+      process.exit();
+    }
+
+    console.log(chalk.green("Data Saved: "));
+    console.log(path + filename);
+  });
 };
 
 const slugify = (text) => {
@@ -45,4 +57,77 @@ const slugify = (text) => {
     .replace(/\-\-+/g, "-"); // Replace multiple - with single -
 };
 
-module.exports = {getConfigDataFromArgs, getRangeFromConfig, saveDataToFile, slugify};
+const getFileNameFromConfig = (config) => {
+  const [, domain] = config.baseUrl.split("//");
+  const date = new Date();
+
+  return (
+    slugify(
+      domain +
+        "_" +
+        date.getFullYear() +
+        (date.getMonth() > 9 ? date.getMonth() : "0" + date.getMonth()) +
+        (date.getDay() > 9 ? date.getDay() : "0" + date.getDay()) +
+        "_" +
+        (date.getHours() > 9 ? date.getHours() : "0" + date.getHours()) +
+        (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()) +
+        (date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds())
+    ) + ".json"
+  );
+};
+
+const ensureDirectoryExists = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, {recursive: true});
+  }
+};
+
+const ProgressBar = (progress, payload) => {
+  // Make it 50 characters length
+  var units = Math.round(progress / 2);
+  return (
+    "[" +
+    chalk.green("=").repeat(units) +
+    " ".repeat(50 - units) +
+    "] " +
+    chalk.green(progress + "%") +
+    " " +
+    (payload && chalk.grey("(" + payload + ")"))
+  );
+};
+
+const showProgress = (barLine, progress, max, payload) => {
+  barLine(ProgressBar(Math.round((progress * 10000) / max) / 100, payload));
+};
+
+const iterateWithProgress = (items, initialMessage) => async (callback) => {
+  const iteratedData = [];
+  let current = 0;
+  const max = items.length;
+  console.log(initialMessage);
+  var barLine = console.draft("");
+
+  showProgress(barLine, 0, max, "");
+
+  for (const item of items) {
+    const data = await callback(item, current, iteratedData, items);
+    iteratedData.push(data);
+    showProgress(barLine, ++current, max, item);
+  }
+
+  showProgress(barLine, max, max, "Finished");
+
+  console.log(chalk.green("Done"));
+  console.log("");
+  return iteratedData;
+};
+
+module.exports = {
+  getConfigDataFromArgs,
+  getRangeFromConfig,
+  saveDataToFile,
+  slugify,
+  getFileNameFromConfig,
+  showProgress,
+  iterateWithProgress,
+};
