@@ -12,7 +12,7 @@ To run it you only need to create a json file like this one:
   "dataSource": {
     "url": "https://www.web-to-scrap.com/path/other-path/?page={page}",
     "elements": {
-      "page": [1, 2, 3, 4] // can be a string like "1-11"
+      "page": [1, 2, 3, 4]
     },
     "selector": ".list-itme .with-pagination-to-get-links"
   },
@@ -32,19 +32,19 @@ To run it you only need to create a json file like this one:
 }
 ```
 
-**baseUrl**: To complete the urls starting with slash "/"
+- **baseUrl**: To complete the urls starting with slash "/"
 
-**dataSource.url**: The pagination url where you want to get all the elements, whte {page} part will be replaced with **elements.page**
+- **dataSource.url**: The pagination url where you want to get all the elements, whte {page} part will be replaced with **elements.page**
 
-**dataSourde.elements.page**: The pages to request, can be a an array with all the elements you want, or can be a string range "1-11" or "7-21"...
+- **dataSourde.elements.page**: The pages to request, can be a an array with all the elements you want, or can be a string range "1-11" or "7-21"...
 
-**dataSource.selector**: The selector where the URL of the individual elements in the paginaed list
+- **dataSource.selector**: The selector where the URL of the individual elements in the paginaed list
 
-**language.default**: The default language you want to set in the output json
+- **language.default**: The default language you want to set in the output json
 
-**language.aditional**: Aditional languages you want to add to the scrap, you can add as many as you want
+- **language.aditional**: Aditional languages you want to add to the scrap, you can add as many as you want
 
-**scrapData**: The data structure you want to exprt, and theis selector to get the information, the \_ elements would refer to the url, so you can perform a regex to get the part of the url you want, aditionally a url element will be added with the original requested url.
+- **scrapData**: The data structure you want to exprt, and theis selector to get the information, the \_ elements would refer to the url, so you can perform a regex to get the part of the url you want, aditionally a url element will be added with the original requested url.
 
 ### The Custom Selector
 
