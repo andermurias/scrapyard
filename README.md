@@ -57,5 +57,5 @@ The first part references the css selectro, pretty common and then you can add a
 ### How to run it
 
 ```shel
-node index.js config/test.json
+node index.js path/to/conifg/file.json
 ```
