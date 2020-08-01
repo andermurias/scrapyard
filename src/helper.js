@@ -1,9 +1,8 @@
 const fs = require("fs");
+const path = require("path");
 const chalk = require("chalk");
 
-const getConfigDataFromArgs = (argv) => {
-  const [, , configFle] = argv;
-
+const getConfigDataFromArgs = (configFle) => {
   if (!configFle) {
     throw "Config file not set";
   }
@@ -12,7 +11,7 @@ const getConfigDataFromArgs = (argv) => {
     throw configFle + " does not exists";
   }
 
-  return require("../" + configFle);
+  return require(path.resolve(configFle));
 };
 
 const getRangeFromConfig = (rangeData) => {

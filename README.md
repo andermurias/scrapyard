@@ -56,6 +56,19 @@ The first part references the css selectro, pretty common and then you can add a
 
 ### How to run it
 
-```shel
-node index.js path/to/conifg/file.json
+```shell
+node . --config path/to/conifg/file.json
+```
+
+### Install as a global
+
+```shell
+npm install -g .
+```
+
+Then to use it you should type
+
+```shell
+scrapyard --config path/to/conifg/file.json
+
 ```

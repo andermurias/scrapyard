@@ -1,13 +1,21 @@
 {
   "name": "scrapyard",
   "version": "1.0.0",
-  "main": "src/index.js",
-  "author": "andermurias",
+  "main": "./bin/index.js",
+  "description": "",
+  "author": "andermurias (https://andermurias.me)",
   "license": "MIT",
+  "bin": {
+    "scrapyard": "./bin/index.js"
+  },
+  "engines": {
+    "node": ">=12"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
-    "draftlog": "^1.0.12"
+    "draftlog": "^1.0.12",
+    "yargs": "^15.4.1"
   }
 }
