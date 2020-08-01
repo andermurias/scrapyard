@@ -4,11 +4,11 @@ const chalk = require("chalk");
 
 const getConfigDataFromArgs = (configFle) => {
   if (!configFle) {
-    throw "Config file not set";
+    throw new Error("Config file not set");
   }
 
   if (!fs.existsSync(configFle)) {
-    throw configFle + " does not exists";
+    throw new Error(configFle + " does not exists");
   }
 
   return require(path.resolve(configFle));
@@ -81,7 +81,7 @@ const ensureDirectoryExists = (dir) => {
   }
 };
 
-const ProgressBar = (progress, payload) => {
+const progressBar = (progress, payload) => {
   // Make it 50 characters length
   var units = Math.round(progress / 2);
   return (
@@ -96,7 +96,7 @@ const ProgressBar = (progress, payload) => {
 };
 
 const showProgress = (barLine, progress, max, payload) => {
-  barLine(ProgressBar(Math.round((progress * 10000) / max) / 100, payload));
+  barLine(progressBar(Math.round((progress * 10000) / max) / 100, payload));
 };
 
 const iterateWithProgress = (items, initialMessage) => async (callback) => {
@@ -129,4 +129,6 @@ module.exports = {
   getFileNameFromConfig,
   showProgress,
   iterateWithProgress,
+  ensureDirectoryExists,
+  progressBar,
 };

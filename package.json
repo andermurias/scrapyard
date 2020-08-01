@@ -12,6 +12,10 @@
   "bin": {
     "scrapyard": "./bin/index.js"
   },
+  "scripts": {
+    "test": "jest --config ./jest.config.js",
+    "test:coverage": "jest --coverage"
+  },
   "engines": {
     "node": ">=12"
   },
@@ -21,5 +25,9 @@
     "cheerio": "^1.0.0-rc.3",
     "draftlog": "^1.0.12",
     "yargs": "^15.4.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.8",
+    "jest": "^26.2.2"
   }
 }
