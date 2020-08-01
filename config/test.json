@@ -1,0 +1,25 @@
+{
+  "baseUrl": "https://www.guggenheim-bilbao.eus",
+  "dataSource": {
+    "url": "https://www.guggenheim-bilbao.eus/la-coleccion/obras?page={page}",
+    "elements": {
+      "page": [1]
+    },
+    "selector": ".collection-works__grid .grid__item > a"
+  },
+  "language": {
+    "default": "es",
+    "aditional": {
+      "eu": "link[hreflang='eu']/attr:href",
+      "en": "link[hreflang='en']/attr:href",
+      "fr": "link[hreflang='fr']/attr:href"
+    }
+  },
+  "scrapData": {
+    "_slug": "\\/([0-9a-zA-Z\\-]*)$",
+    "image": ".picture__picture > img/attr:src",
+    "title": ".page-header h1/text",
+    "artist": ".page-header h3/text",
+    "content": ".work__content .content/html"
+  }
+}

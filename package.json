@@ -1,0 +1,11 @@
+{
+  "name": "scrapyard",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "andermurias",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
