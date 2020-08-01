@@ -2,9 +2,13 @@
   "name": "scrapyard",
   "version": "1.0.0",
   "main": "./bin/index.js",
-  "description": "",
+  "description": "Small to to export content from small website with web scrapping",
   "author": "andermurias (https://andermurias.me)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andermurias/scrapyard"
+  },
   "bin": {
     "scrapyard": "./bin/index.js"
   },
