@@ -1,10 +1,10 @@
 const cheerio = require("cheerio");
 const chalk = require("chalk");
 const axios = require("axios");
-const DraftLog = require("draftlog");
-const {range, iterateWithProgress} = require("./helper");
+const {range, iterateWithProgress, isEnv} = require("./helper");
 
-const draft = DraftLog(console);
+const DraftLog = require("draftlog");
+const draft = DraftLog(console, isEnv("test"));
 
 const getPipe = async (baseUrl, pipeUrl, pages, selector) => {
   const pageIterator = await iterateWithProgress(pages, "Obtaining Pipe...");
@@ -50,8 +50,10 @@ const getDataFromURL = async (url, scrapData, baseUrl, lang) => {
 
   for (const key in lang.aditional) {
     const i18nUrl = getDataWithCustomSelector($, lang.aditional[key]);
-    const $i18n = await getPage(i18nUrl);
-    dataResponse[key] = getScrapData($i18n, scrapData, i18nUrl);
+    if (i18nUrl) {
+      const $i18n = await getPage(i18nUrl);
+      dataResponse[key] = getScrapData($i18n, scrapData, i18nUrl);
+    }
   }
 
   return dataResponse;
@@ -78,4 +80,8 @@ const processPipe = async (urls, scrapData, baseUrl, lang) => {
   return await pageIterator(async (url) => await getDataFromURL(url, scrapData, baseUrl, lang));
 };
 
-module.exports = {getPipe, getPage, getScrapData, getDataFromURL, processPipe};
+const getForTest = async () => {
+  return await axios.get("index_1.html");
+};
+
+module.exports = {getPipe, getPage, getScrapData, getDataFromURL, processPipe, getForTest};

@@ -1,6 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
+const moment = require("moment");
+
+const isEnv = (env) => process.env.NODE_ENV === env;
 
 const getConfigDataFromArgs = (configFle) => {
   if (!configFle) {
@@ -27,16 +30,16 @@ const saveDataToFile = (data, path, filename) => {
     fs.unlinkSync(path + filename);
   }
 
-  console.log("");
+  console.draft("");
 
   fs.writeFile(path + filename, JSON.stringify(data), {overwrite: true, flag: "wx"}, (err) => {
     if (err) {
-      console.log(err);
+      console.draft(err);
       process.exit();
     }
 
-    console.log(chalk.green("Data Saved: "));
-    console.log(path + filename);
+    console.draft(chalk.green("Data Saved: "));
+    console.draft(path + filename);
   });
 };
 
@@ -60,19 +63,7 @@ const getFileNameFromConfig = (config) => {
   const [, domain] = config.baseUrl.split("//");
   const date = new Date();
 
-  return (
-    slugify(
-      domain +
-        "_" +
-        date.getFullYear() +
-        (date.getMonth() > 9 ? date.getMonth() : "0" + date.getMonth()) +
-        (date.getDay() > 9 ? date.getDay() : "0" + date.getDay()) +
-        "_" +
-        (date.getHours() > 9 ? date.getHours() : "0" + date.getHours()) +
-        (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()) +
-        (date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds())
-    ) + ".json"
-  );
+  return slugify(domain + "_" + moment().format("YYYYMMDD") + "_" + moment().format("HHmmss")) + ".json";
 };
 
 const ensureDirectoryExists = (dir) => {
@@ -103,9 +94,8 @@ const iterateWithProgress = (items, initialMessage) => async (callback) => {
   const iteratedData = [];
   let current = 0;
   const max = items.length;
-  console.log(initialMessage);
+  console.draft(initialMessage);
   var barLine = console.draft("");
-
   showProgress(barLine, 0, max, "");
 
   for (const item of items) {
@@ -116,12 +106,13 @@ const iterateWithProgress = (items, initialMessage) => async (callback) => {
 
   showProgress(barLine, max, max, "Finished");
 
-  console.log(chalk.green("Done"));
-  console.log("");
+  console.draft(chalk.green("Done"));
+  console.draft("");
   return iteratedData;
 };
 
 module.exports = {
+  isEnv,
   getConfigDataFromArgs,
   getRangeFromConfig,
   saveDataToFile,

@@ -1,0 +1,24 @@
+{
+  "baseUrl": "",
+  "dataSource": {
+    "url": "index/{page}.html",
+    "elements": {
+      "page": [1, 2, 3]
+    },
+    "selector": "ul li.list-item > a"
+  },
+  "language": {
+    "default": "es",
+    "aditional": {
+      "en": "link[hreflang='en']/attr:href",
+      "fr": "link[hreflang='fr']/attr:href"
+    }
+  },
+  "scrapData": {
+    "_slug": "^pages/([0-9]*)\\.html$",
+    "image": ".main-image > img/attr:src",
+    "title": ".page-header h1/text",
+    "subtitle": ".page-header h3/text",
+    "content": ".main .content/html"
+  }
+}

@@ -13,8 +13,8 @@
     "scrapyard": "./bin/index.js"
   },
   "scripts": {
-    "test": "jest --config ./jest.config.js",
-    "test:coverage": "jest --coverage"
+    "test": "jest --silent --config ./jest.config.js",
+    "test:coverage": "jest --coverage --silent --config ./jest.config.js"
   },
   "engines": {
     "node": ">=12"
@@ -24,6 +24,7 @@
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
     "draftlog": "^1.0.12",
+    "moment": "^2.27.0",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
