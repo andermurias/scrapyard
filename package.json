@@ -24,7 +24,7 @@
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
     "draftlog": "^1.0.12",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
